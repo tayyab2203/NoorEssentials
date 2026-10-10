@@ -1,0 +1,274 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Responsive base font size */
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    font-size: 16px;
+  }
+  @media (max-width: 1024px) {
+    html {
+      font-size: 15px;
+    }
+  }
+  @media (max-width: 768px) {
+    html {
+      font-size: 14px;
+    }
+  }
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
+  :root {
+    /*
+    Legacy palette retained for future style reference:
+    --primary-dark: 0 0% 20%;
+    --gold-accent: 43 42% 52%;
+    --cream: 40 25% 96%;
+    --sage: 155 27% 47%;
+    */
+
+    --noor-cream: 34.7 70.4% 94.7%;
+    --noor-sand: 37.5 57.1% 89%;
+    --noor-gold: 38.1 59.3% 45.3%;
+    --noor-gold-light: 40.6 60.7% 57.1%;
+    --noor-gold-dark: 38.4 70.4% 31.8%;
+    --noor-success: 113.8 24.5% 38.4%;
+    --noor-error: 7.7 58.4% 44.3%;
+
+    --primary-dark: 34.3 18.9% 7.3%;
+    --gold-accent: var(--noor-gold);
+    --cream: var(--noor-cream);
+    --sage: var(--noor-success);
+
+    /*
+    Previous shadcn theme values retained for future style reference:
+    --background: 40 25% 96%;
+    --foreground: 0 0% 20%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 20%;
+    --primary: 0 0% 20%;
+    --primary-foreground: 40 25% 96%;
+    --secondary: 155 27% 47%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 40 15% 93%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 43 42% 52%;
+    --accent-foreground: 0 0% 20%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 40 10% 90%;
+    --input: 40 10% 90%;
+    --ring: 0 0% 20%;
+    */
+
+    --background: var(--noor-cream);
+    --foreground: 34.3 18.9% 7.3%;
+    --card: 0 0% 100%;
+    --card-foreground: 34.3 18.9% 7.3%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 34.3 18.9% 7.3%;
+    --primary: 34.3 18.9% 7.3%;
+    --primary-foreground: var(--noor-cream);
+    --secondary: var(--noor-sand);
+    --secondary-foreground: 34.3 18.9% 7.3%;
+    --muted: var(--noor-sand);
+    --muted-foreground: 31.6 9.7% 38.2%;
+    --accent: var(--noor-gold);
+    --accent-foreground: 34.3 18.9% 7.3%;
+    --destructive: var(--noor-error);
+    --destructive-foreground: 0 0% 100%;
+    --border: 37.8 47.9% 81.2%;
+    --input: 37.8 47.9% 81.2%;
+    --ring: var(--noor-gold);
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 20%;
+    --foreground: 40 25% 96%;
+    --card: 0 0% 20%;
+    --card-foreground: 40 25% 96%;
+    --popover: 0 0% 20%;
+    --popover-foreground: 40 25% 96%;
+    --primary: 43 42% 52%;
+    --primary-foreground: 0 0% 20%;
+    --secondary: 155 27% 47%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 25%;
+    --muted-foreground: 40 15% 70%;
+    --accent: 43 42% 52%;
+    --accent-foreground: 0 0% 20%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+    --ring: 43 42% 52%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-cream text-primary-dark antialiased overflow-x-hidden;
+  }
+  /* Gold focus ring for accessibility (brand guideline) */
+  *:focus-visible {
+    /* Previous focus ring: #C4A747. */
+    @apply outline-none ring-2 ring-noor-gold ring-offset-2;
+  }
+  /* Mobile: subtle tap highlight (brand color) instead of default */
+  * {
+    /* Previous tap highlight: rgba(196, 167, 71, 0.2). */
+    -webkit-tap-highlight-color: hsl(var(--noor-gold) / 0.2);
+    tap-highlight-color: hsl(var(--noor-gold) / 0.2);
+  }
+  /* Respect reduced motion preference (accessibility) */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    /* Disable tap scale feedback when user prefers reduced motion */
+    button[class*="active:scale"],
+    [class*="active:scale"] {
+      transform: none !important;
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer utilities {
+  .bg-gold-gradient {
+    background-image: linear-gradient(
+      135deg,
+      #D4A94F 0%,
+      #B8862F 50%,
+      #8A6118 100%
+    );
+  }
+  .animate-fade-in-up {
+    animation: fade-in-up 0.4s ease-out forwards;
+  }
+  .animate-shimmer {
+    animation: shimmer 1.5s ease-in-out infinite;
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted-foreground) / 0.1) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+  .skip-link {
+    /* Previous skip link colors: #C4A747 and #333333. */
+    @apply sr-only rounded-md bg-noor-gold px-4 py-2 text-noor-black outline-none ring-2 ring-noor-gold ring-offset-2;
+  }
+  .skip-link:focus {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    z-index: 100;
+    width: auto;
+    height: auto;
+    padding: 0.5rem 1rem;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+  /* Touch target: ensure interactive elements meet 44x44px minimum on touch devices */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .touch-target-y {
+    min-height: 44px;
+  }
+  .touch-target-x {
+    min-width: 44px;
+  }
+  /* Responsive heading scales */
+  .heading-xl {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+  .heading-lg {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+  }
+  .heading-md {
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  }
+  /* Ripple effect for touch */
+  @keyframes ripple {
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+  .ripple-effect {
+    position: relative;
+    overflow: hidden;
+  }
+  .ripple-effect::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* Previous ripple color: rgba(196, 167, 71, 0.2). */
+    background: radial-gradient(circle, hsl(var(--noor-gold) / 0.2) 0%, transparent 70%);
+    transform: scale(0);
+    opacity: 1;
+    pointer-events: none;
+  }
+  .ripple-effect:active::after {
+    animation: ripple 0.4s ease-out;
+  }
+}
