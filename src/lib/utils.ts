@@ -14,6 +14,21 @@ export function formatPrice(amount: number, currency = "PKR"): string {
   }).format(amount);
 }
 
+/** Undo one or two rounds of URL encoding. Route params sometimes arrive still encoded. */
+export function decodeRouteParam(value: string): string {
+  let current = value;
+  for (let i = 0; i < 2; i++) {
+    try {
+      const next = decodeURIComponent(current);
+      if (next === current) break;
+      current = next;
+    } catch {
+      break;
+    }
+  }
+  return current;
+}
+
 /** Generate URL-safe slug from string (e.g. for product slug) */
 export function slugify(text: string): string {
   return text

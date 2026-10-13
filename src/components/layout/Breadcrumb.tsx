@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 import { ROUTES } from "@/lib/constants";
+import { decodeRouteParam } from "@/lib/utils";
 import { Container } from "./Container";
 
 const LABELS: Record<string, string> = {
@@ -31,7 +32,9 @@ function getBreadcrumbSegments(pathname: string): { path: string; label: string 
   let acc = "";
   for (const segment of segments) {
     acc += `/${segment}`;
-    const label = LABELS[acc] ?? segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, " ");
+    const decoded = decodeRouteParam(segment).replace(/-/g, " ").replace(/\s+/g, " ").trim();
+    const readable = decoded ? decoded.charAt(0).toUpperCase() + decoded.slice(1) : segment;
+    const label = LABELS[acc] ?? readable;
     items.push({ path: acc, label });
   }
   return items;
@@ -59,7 +62,7 @@ export function Breadcrumb() {
               )}
               {isLast ? (
                 <span
-                  className="font-medium text-[#C4A747]"
+                  className="min-w-0 break-words font-medium text-[#C4A747]"
                   aria-current="page"
                 >
                   {label}
