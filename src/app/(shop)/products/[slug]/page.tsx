@@ -38,8 +38,7 @@ import { useWishlistStore } from "@/store/wishlistStore";
 import { ProductCard } from "@/components/product/ProductCard";
 import { Container } from "@/components/layout/Container";
 import { useToast } from "@/components/ui/toast";
-import { formatPrice } from "@/lib/utils";
-import { cn } from "@/lib/utils";
+import { cn, decodeRouteParam, formatPrice } from "@/lib/utils";
 import { COLOR_SWATCH_HEX, ROUTES } from "@/lib/constants";
 import type { Product } from "@/types";
 
@@ -265,7 +264,8 @@ function ProductPageSkeleton() {
 
 export default function ProductSlugPage() {
   const params = useParams();
-  const slug = typeof params.slug === "string" ? params.slug : "";
+  const rawSlug = typeof params.slug === "string" ? params.slug : "";
+  const slug = decodeRouteParam(rawSlug);
   const { status: authStatus } = useSession();
   const toast = useToast();
 

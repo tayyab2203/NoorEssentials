@@ -88,6 +88,7 @@ export async function PATCH(
     const data = parsed.data;
     
     if (data.slug !== undefined) {
+      data.slug = slugify(data.slug);
       const existing = await Product.findOne({
         slug: data.slug,
         _id: { $ne: new mongoose.Types.ObjectId(id) },

@@ -33,12 +33,11 @@ export function WhatsAppButton({
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
       className={cn(
-        "fixed bottom-24 left-4 z-[9999] inline-flex h-12 items-center gap-2 rounded-full bg-[#25D366] px-4 text-sm font-semibold text-white shadow-lg transition hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-white/80 focus:ring-offset-2 focus:ring-offset-transparent md:bottom-6",
+        "fixed bottom-24 right-4 z-40 inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-white/80 focus:ring-offset-2 focus:ring-offset-transparent md:bottom-6",
         className
       )}
     >
-      <MessageCircle className="h-5 w-5" aria-hidden />
-      <span className="hidden sm:inline">WhatsApp</span>
+      <MessageCircle className="h-6 w-6" aria-hidden />
     </Link>
   );
 }

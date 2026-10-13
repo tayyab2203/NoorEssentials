@@ -1,9 +1,11 @@
 import { Metadata } from "next";
+import { decodeRouteParam } from "@/lib/utils";
 
 type Props = { params: Promise<{ slug: string }>; children: React.ReactNode };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug: rawSlug } = await params;
+  const slug = decodeRouteParam(rawSlug);
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
   try {
     const res = await fetch(`${base}/api/products?slug=${encodeURIComponent(slug)}`, { cache: "no-store" });

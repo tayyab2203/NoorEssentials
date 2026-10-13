@@ -6,7 +6,7 @@ import { requireAdmin } from "@/lib/auth-server";
 import { auth } from "@/lib/auth";
 import { PRODUCT_STATUS } from "@/lib/constants";
 import { productCreateSchema } from "@/lib/validations";
-import { slugify } from "@/lib/utils";
+import { decodeRouteParam, slugify } from "@/lib/utils";
 import type { Product as ProductType } from "@/types";
 
 function toProductJSON(doc: { _id: { toString: () => string }; [k: string]: unknown }): ProductType {
@@ -44,7 +44,12 @@ export async function GET(request: Request) {
     const filter = isAdmin ? {} : { status: PRODUCT_STATUS.ACTIVE };
 
     if (slug) {
-      const product = await Product.findOne({ ...filter, slug }).lean();
+      const candidates = [...new Set([slug, decodeRouteParam(slug)].map((value) => value.trim()).filter(Boolean))];
+      let product = null;
+      for (const candidate of candidates) {
+        product = await Product.findOne({ ...filter, slug: candidate }).lean();
+        if (product) break;
+      }
       if (!product) return error("Not found", 404);
       return NextResponse.json(toProductJSON(product as Parameters<typeof toProductJSON>[0]));
     }
@@ -153,7 +158,7 @@ export async function POST(request: Request) {
     }
 
     const data = parsed.data;
-    let slug = data.slug?.trim() || slugify(data.name);
+    let slug = slugify(data.slug?.trim() || data.name);
     let exists = await Product.findOne({ slug });
     let suffix = 0;
     while (exists) {
